@@ -1,0 +1,19 @@
+.introduction {
+    display: block;
+    text-align: center;
+}
+
+.startButton {
+    display: block;
+    text-align: center;
+    align-content: center;
+}
+
+.timer {
+    display: none;
+    text-align: center;
+}
+
+.quiz {
+    display: none;
+}
