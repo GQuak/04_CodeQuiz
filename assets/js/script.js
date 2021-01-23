@@ -1,18 +1,80 @@
 
-//variables
+//Button Variables
 // easy reference for ID variables: var timerEl = document.getElementById("timer");
 var startButton = document.querySelector(".startButton");
+var questionChoices = document.getElementById("question-choices");
+
+//Display Variables
 var timerEl = document.querySelector(".timer");
 var introductionEl = document.querySelector(".introduction");
 var quizEl = document.querySelector(".quiz");
-var secondsLeft = 60;
+var questionTitleEl = document.getElementById("question-title");
+var questionChoicesEl = document.getElementById("question-choices");
+var answerResultEl = document.getElementById("answer-result");
 
-console.log(startButton);
-//pseudocode
+
+//Stored variables
+var secondsLeft = 60;
+var currentQuestion = 0;
+var score = 0;
+
+//object to store all the questions, answers, and correct answers
+var quiz = [
+    {
+        question: "Question 1? - answer 2",
+        choices: ["option1", "option2", "option3", "option4"],
+        answer: "option2"
+    },
+    {
+        question: "Question 2? - answer 4",
+        choices: ["option1", "option2", "option3", "option4"],
+        answer: "option4"
+    },
+    {
+        question: "Question 3? - answer 1",
+        choices: ["option1", "option2", "option3", "option4"],
+        answer: "option1"
+    },
+    {
+        question: "Question 4? - answer 3",
+        choices: ["option1", "option2", "option3", "option4"],
+        answer: "option3"
+    },
+    {
+        question: "Question 5? - answer 2",
+        choices: ["option1", "option2", "option3", "option4"],
+        answer: "option2"
+    },
+];
 
 //Listen for "start" button click
 startButton.addEventListener("click", setTime);
 
+//Listen for an answer to be clicked
+questionChoices.addEventListener("click", function (event) {
+    answerResultEl.innerHTML = "";
+
+    var userChoice = event.target.textContent;
+    var answerDisplayEl = document.createElement("h3");
+    if (userChoice == quiz[currentQuestion].answer) {
+        answerDisplayEl.textContent = "Correct";
+        score++;
+    }
+    else {
+        answerDisplayEl.textContent = "Wrong";
+    }
+
+    answerResultEl.append(answerDisplayEl);
+
+    if (currentQuestion <= 3) {
+        currentQuestion++;
+        renderQuestion();
+    }
+    else {
+        endQuiz();
+
+    }
+})
 //show timer & first question
 //start timer on start click
 // Selects element by id
@@ -27,7 +89,7 @@ function setTime() {
     // Sets interval in variable
     var timerInterval = setInterval(function () {
         secondsLeft--;
-        timerEl.textContent = secondsLeft + " seconds left.";
+        timerEl.innerHTML = secondsLeft + " seconds left.";
 
         if (secondsLeft === 0) {
             // Stops execution of action at set interval
@@ -37,26 +99,58 @@ function setTime() {
         }
 
     }, 1000);
+
+    renderQuestion();
+};
+
+//Show questions on the screen
+function renderQuestion() {
+    questionChoicesEl.innerHTML = "";
+    questionTitleEl.innerHTML = "";
+
+    //Show Question
+    questionTitleEl.append(quiz[currentQuestion].question);
+
+    //First Answer Option
+    var optionOne = document.createElement("li");
+    optionOne.textContent = quiz[currentQuestion].choices[0];
+    questionChoicesEl.append(optionOne);
+
+    //Second Answer Option
+    var optionTwo = document.createElement("li");
+    optionTwo.textContent = quiz[currentQuestion].choices[1];
+    questionChoicesEl.append(optionTwo);
+
+    //Third Answer Option
+    var optionThree = document.createElement("li");
+    optionThree.textContent = quiz[currentQuestion].choices[2];
+    questionChoicesEl.append(optionThree);
+
+    //Fourth Answer Option
+    var optionFour = document.createElement("li");
+    optionFour.textContent = quiz[currentQuestion].choices[3];
+    questionChoicesEl.append(optionFour);
 }
 
 // Function to end game and save high score
 function endQuiz() {
+    questionTitleEl.innerHTML = "";
+    questionChoicesEl.innerHTML = "";
+    answerResultEl.innerHTML = "";
     timerEl.textContent = "Game Over";
     secondsLeft = 60;
 }
 
 //Function to hide introduction & start button
 function hideIntroduction() {
-    console.log("hide intro");
     // var displaySetting = introductionEl.style.display;
     document.querySelector(".introduction").style.display = "none";
 }
 
 //Function to show timer & quiz
 function showQuiz() {
-    console.log("show quiz");
     document.querySelector(".timer").style.display = "block";
-    document.querySelector(".quiz").style.display = "block";
+    document.querySelector(".quizContainer").style.display = "block";
 }
 
 
@@ -80,119 +174,3 @@ function showQuiz() {
 //return to start screen or include button to restart the quiz
 
 
-//EXAMPLE QUIZ -------------------------------------------------------------------------------------------------------------
-function createQuiz() {
-    // variable to store the HTML output
-    const output = [];
-
-    // for each question...
-    questions.forEach(
-        (currentQuestion, questionNumber) => {
-
-            // variable to store the list of possible answers
-            const answers = [];
-
-            // and for each available answer...
-            for (letter in currentQuestion.answers) {
-
-                // ...add an HTML radio button
-                answers.push(
-                    `<label>
-              <input type="radio" name="question${questionNumber}" value="${letter}">
-              ${letter} :
-              ${currentQuestion.answers[letter]}
-            </label>`
-                );
-            }
-
-            // add this question and its answers to the output
-            output.push(
-                `<div class="question"> ${currentQuestion.question} </div>
-          <div class="answers"> ${answers.join('')} </div>`
-            );
-        }
-    );
-
-    // finally combine our output list into one string of HTML and put it on the page
-    quizContainer.innerHTML = output.join('');
-}
-
-function showResults() {
-    // gather answer containers from our quiz
-    const answerContainers = quizContainer.querySelectorAll('.answers');
-
-    // keep track of user's answers
-    let numCorrect = 0;
-
-    // for each question...
-    questions.forEach((currentQuestion, questionNumber) => {
-
-        // find selected answer
-        const answerContainer = answerContainers[questionNumber];
-        const selector = `input[name=question${questionNumber}]:checked`;
-        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-        // if answer is correct
-        if (userAnswer === currentQuestion.correctAnswer) {
-            // add to the number of correct answers
-            numCorrect++;
-
-            // color the answers green
-            answerContainers[questionNumber].style.color = 'lightgreen';
-        }
-        // if answer is wrong or blank
-        else {
-            // color the answers red
-            answerContainers[questionNumber].style.color = 'red';
-        }
-    });
-
-    // show number of correct answers out of total
-    resultsContainer.innerHTML = `${numCorrect} out of ${questions.length}`;
-
-}
-
-const quizContainer = document.getElementById('quiz');
-const resultsContainer = document.getElementById('results');
-const submitButton = document.getElementById('submit');
-
-const questions = [
-    {
-        question: "Who invented JavaScript?",
-        answers: {
-            a: "Douglas Crockford",
-            b: "Sheryl Sandberg",
-            c: "Brendan Eich",
-            d: "Thomas Edison"
-        },
-        correctAnswer: "c"
-    },
-    {
-        question: "Which one of these is a JavaScript package manager?",
-        answers: {
-            a: "Node.js",
-            b: "TypeScript",
-            c: "npm",
-            d: "Google"
-        },
-        correctAnswer: "c"
-    },
-    {
-        question: "Which tool can you use to ensure code quality?",
-        answers: {
-            a: "Angular",
-            b: "jQuery",
-            c: "RequireJS",
-            d: "ESLint"
-        },
-        correctAnswer: "d"
-    }
-];
-
-
-
-createQuiz();
-
-submitButton.addEventListener('click', showResults);
-
-//END EXAMPLE ================================================================================================================
