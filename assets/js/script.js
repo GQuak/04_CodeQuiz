@@ -11,6 +11,7 @@ var quizEl = document.querySelector(".quiz");
 var questionTitleEl = document.getElementById("question-title");
 var questionChoicesEl = document.getElementById("question-choices");
 var answerResultEl = document.getElementById("answer-result");
+var scoreEl = document.getElementById("score");
 
 
 //Stored variables
@@ -58,9 +59,12 @@ questionChoices.addEventListener("click", function (event) {
     var answerDisplayEl = document.createElement("h3");
     if (userChoice == quiz[currentQuestion].answer) {
         answerDisplayEl.textContent = "Correct";
-        score++;
+        score = score + secondsLeft;
+        console.log("Your score is " + score);
+        scoreEl.innerHTML = "Your score is " + score;
     }
     else {
+        secondsLeft = secondsLeft - 10;
         answerDisplayEl.textContent = "Wrong";
     }
 
@@ -91,7 +95,7 @@ function setTime() {
         secondsLeft--;
         timerEl.innerHTML = secondsLeft + " seconds left.";
 
-        if (secondsLeft === 0) {
+        if (secondsLeft <= 0) {
             // Stops execution of action at set interval
             clearInterval(timerInterval);
             // Calls function to end game
@@ -137,8 +141,9 @@ function endQuiz() {
     questionTitleEl.innerHTML = "";
     questionChoicesEl.innerHTML = "";
     answerResultEl.innerHTML = "";
-    timerEl.textContent = "Game Over";
-    secondsLeft = 60;
+    secondsLeft = 0;
+    timerEl.textContent = "Game Over!";
+
 }
 
 //Function to hide introduction & start button
@@ -149,6 +154,7 @@ function hideIntroduction() {
 
 //Function to show timer & quiz
 function showQuiz() {
+    console.log("Showing quiz")
     document.querySelector(".timer").style.display = "block";
     document.querySelector(".quizContainer").style.display = "block";
 }

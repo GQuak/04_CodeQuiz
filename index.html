@@ -29,47 +29,59 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Code Quiz</a>
+            <a class="navbar-brand" href="scores.html">High Scores</a>
         </div>
     </nav>
 
     <!-- This container holds the page content -->
-    <div class="container-fluid">
+    <div class="container-fluid introduction">
         <div class="row">
 
+            <!-- Card containing the Introduction -->
+            <div class="col-xs-1 col-md-2 col-lg-3"></div>
+            <div class="card col-xs-10 col-md-8 col-lg-6 introduction">
+                <div class="card-body">
+                    <h4 class="card-title">Javascript Fundamentals Quiz</h4>
+                    <p>*Instructions for how to play the game*</p>
+                    <button type="button" class="startButton">Start</button>
+                </div>
 
-            <!-- Card containing the Quiz -->
-            <div>
-                <div class="card">
-                    <div class="card-body introduction">
-                        <h4 class="card-title">Javascript Fundamentals Quiz</h4>
-                        <p>*Instructions for how to play the game*</p>
-                        <button type="button" class="startButton">Start</button>
-                    </div>
+            </div>
+        </div>
+    </div>
 
-                    <!-- <div class="card-body startButton">
-                        <button type="button" class="startButton">Start</button>
-                    </div> -->
+    <!-- Card containing the Quiz -->
+    <div class="container-fluid quizContainer">
+        <div class="row">
+            <div class="col-xs-1 col-md-2 col-lg-2"></div>
+            <div class="card col-xs-10 col-md-5 col-lg-5">
+                <div class="card-body">
+                    <div id="question-title"></div>
+                    <ol id="question-choices"></ol>
+                    <div id="answer-result"></div>
+                    <div id="score"></div>
+                </div>
+            </div>
 
-                    <div class="card-body timer">
-                        <p><span id="timer">60 seconds left.</span></p>
-                    </div>
 
-                    <div class="card-body quizContainer">
-                        <div id="question-title"></div>
-                        <ol id="question-choices"></ol>
-                        <div id="answer-result"></div>
+            <div class="card col-xs-12 col-md-4 col-lg-3 timer">
+                <div class="card-body timer">
+                    <p><br><br></p>
+                    <p><span id="timer">60 seconds left.</span></p>
+                </div>
 
-                    </div>
-
+                <div class="card-body quizContainer">
+                    <div id="score"></div>
                 </div>
 
             </div>
 
 
 
+            <p><br><br></p>
         </div>
-        <p><br><br></p>
     </div>
+
 
     <!-- Footer with social links & copywrite -->
     <footer class="footer footerStyle">

@@ -11,7 +11,7 @@
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/style.css">
 
-    <title>Code Quiz</title>
+    <title>High Scores</title>
 
     <!-- Adding a background image -->
     <style>
@@ -28,53 +28,34 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Code Quiz</a>
+            <a class="navbar-brand" href="#">High Scores</a>
         </div>
     </nav>
 
     <!-- This container holds the page content -->
     <div class="container-fluid">
         <div class="row">
-
+            <div class="col-xs-1 col-md-2 col-lg-3"></div>
 
             <!-- Card containing the Quiz -->
-            <div>
+            <div class="col-xs-10 col-md-8 col-lg-6">
                 <div class="card">
                     <div class="card-body introduction">
-                        <h4 class="card-title">Javascript Fundamentals Quiz</h4>
+                        <h4 class="card-title">Javascript Fundamentals Leaderboard</h4>
                         <p>*Instructions for how to play the game*</p>
                         <button type="button" class="startButton">Start</button>
                     </div>
 
-                    <!-- <div class="card-body startButton">
-                        <button type="button" class="startButton">Start</button>
-                    </div> -->
-
-                    <div class="card-body timer">
-                        <p><span id="timer">60 seconds left.</span></p>
-                    </div>
-
-                    <div class="card-body quizContainer">
-                        <p>Quiz</p>
-                    </div>
-
                 </div>
-                <!-- EXAMPLE QUIZ -->
-                <div class="card">
-                    <div id="quiz"></div>
-                    <button id="submit">Submit Quiz</button>
-                    <div id="results"></div>
-                </div>
-                <!-- END EXAMPLE -->
             </div>
 
-
+            <div class="col-xs-1 col-md-2 col-lg-3"></div>
 
         </div>
         <p><br><br></p>
     </div>
 
-    <!-- Footer with social links & copywrite -->
+    <!-- Footer with copywrite -->
     <footer class="footer footerStyle">
         <p><br></p>
         <div>
