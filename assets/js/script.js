@@ -190,13 +190,6 @@ function showQuiz() {
 
 //HIGH SCORE RECORDING & SHOWING
 
-// Storage.prototype.setObj = function (key, obj) {
-//     return this.setItem(key, JSON.stringify(obj))
-// }
-// Storage.prototype.getObj = function (key) {
-//     return JSON.parse(this.getItem(key))
-// }
-
 var scoreArray = [];
 var initialsArray = [];
 console.log(scoreArray + " Init. " + initialsArray)
@@ -210,11 +203,13 @@ saveButton.addEventListener("click", function (event) {
     initials = document.getElementById("initials").value;
     console.log(initials + " scored " + score);
 
-    //Call function to add new high score to the arrays and then save to local storage
-    saveHighScore();
+
 
     //Call function to display previous high scores
     renderHighScores();
+
+    //Call function to add new high score to the arrays and then save to local storage
+    saveHighScore();
 
 
     console.log("scores saved " + score + " " + initials)
@@ -235,11 +230,11 @@ function renderHighScores() {
     localScore = JSON.parse(localStorage.getItem("scoreArray"));
     localInitials = JSON.parse(localStorage.getItem("initialsArray"));
     if (localScore !== null && localInitials !== null) {
-        // scoreArray = localScore;
-        // initialsArray = localInitials;
+        scoreArray = localScore;
+        initialsArray = localInitials;
 
-        scoreArray.push(localScore);
-        initialsArray.push(localInitials);
+        // scoreArray.push(localScore);
+        // initialsArray.push(localInitials);
     }
 
     if (scoreArray !== null && initialsArray !== null) {
