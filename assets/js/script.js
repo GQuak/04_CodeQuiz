@@ -2,10 +2,10 @@
 //Button Variables
 // easy reference for ID variables: var timerEl = document.getElementById("timer");
 var startButton = document.querySelector(".startButton");
-var restartButton = document.querySelector(".restartButton");
+var restartButton = document.getElementById("restartButton");
 var questionChoices = document.getElementById("question-choices");
 var saveButton = document.getElementById("saveButton");
-var quitButton = document.querySelector(".quitButton");
+var clearButton = document.getElementById("clearButton");
 
 
 //Display Variables
@@ -28,8 +28,6 @@ var secondsLeft = 60;
 var currentQuestion = 0;
 var score = 0;
 var initials = "";
-var scoreArray = [300];
-var initialsArray = ["Perfect Score"];
 
 
 
@@ -67,6 +65,9 @@ var quiz = [
 //Listen for "start" button click
 startButton.addEventListener("click", setTime);
 
+//Listen for "restart" button click
+restartButton.addEventListener("click", setTime);
+
 //Listen for an answer to be clicked
 questionChoices.addEventListener("click", function (event) {
     answerResultEl.innerHTML = "";
@@ -102,6 +103,7 @@ questionChoices.addEventListener("click", function (event) {
 
 function setTime() {
     console.log("Start button click");
+    secondsleft = 60;
     // introductionEl.setAttribute("display", "none");
     // timerEl.setAttribute("display", "block");
     hideIntroduction();
@@ -166,6 +168,7 @@ function endQuiz() {
 function hideIntroduction() {
     // var displaySetting = introductionEl.style.display;
     document.querySelector(".introduction").style.display = "none";
+    document.querySelector(".highScores").style.display = "none";
 }
 
 //Function to show timer & quiz
@@ -178,21 +181,35 @@ function showQuiz() {
 
 //HIGH SCORE RECORDING & SHOWING
 
+// Storage.prototype.setObj = function (key, obj) {
+//     return this.setItem(key, JSON.stringify(obj))
+// }
+// Storage.prototype.getObj = function (key) {
+//     return JSON.parse(this.getItem(key))
+// }
+
+var scoreArray = [300];
+var initialsArray = ["Perfect Score"];
+console.log(scoreArray + " Init. " + initialsArray)
 
 //Event listener to save high score and display last high score
 saveButton.addEventListener("click", function (event) {
     event.preventDefault();
+    console.log(scoreArray + " Init. 2 " + initialsArray)
 
     //setting input text value to the initials variable
     initials = document.getElementById("initials").value;
     console.log(initials + " scored " + score);
-
 
     //Call function to display previous high scores
     renderHighScores();
 
     //Call function to add new high score to the arrays and then save to local storage
     saveHighScore();
+
+
+
+
 
     console.log("scores saved " + score + " " + initials)
     document.querySelector(".highScores").style.display = "block";
@@ -202,36 +219,43 @@ saveButton.addEventListener("click", function (event) {
 
 function saveHighScore() {
     //add new values to the arrays
-    console.log(x + " lenght of array " + y);
-    console.dir(scoreArray + " initials: " + initialsArray);
-    var x = scoreArray.push(score);
-    var y = initialsArray.push(initials);
-    console.log(x + " lenght of array " + y);
-    console.log(scoreArray + " initials: " + initialsArray)
+    scoreArray.push(score);
+    initialsArray.push(initials);
+    console.log(scoreArray + " initials: " + initialsArray);
 
     //
-    localStorage.setItem("score", JSON.stringify(score));
-    localStorage.setItem("initials", JSON.stringify(initials));
+    localStorage.setItem("initialsArray", JSON.stringify(initialsArray));
+    localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
 
-    // Save related form data as an object
-    // var highScores = {
-    //     initials: initials.value.trim(),
-    //     score: score.value
-    // };
-    // // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
-    // localStorage.setItem("highScores", JSON.stringify(highScores));
-    // localStorage.setItem("score", JSON.stringify(score));
-    // localStorage.setItem("initials", JSON.stringify(initials));
 }
 
 function renderHighScores() {
-    scoreArray = JSON.parse(localStorage.getItem("scoreArray"));
-    initialsArray = JSON.parse(localStorage.getItem("initialsArray"));
-    console.log(scoreArray + " " + initialsArray)
+    //Checks to see if there are high scores and initials saved in storage and adds the values to the arrays if there are any.
+    localScore = JSON.parse(localStorage.getItem("scoreArray"));
+    localInitials = JSON.parse(localStorage.getItem("initialsArray"));
+    if (localScore !== null && localInitials !== null) {
+        scoreArray = localScore;
+        initialsArray = localInitials;
+    }
+    console.log(scoreArray + " set to null. " + initialsArray)
+
     if (scoreArray !== null && initialsArray !== null) {
         for (i = 0; i < scoreArray.length; i++) {
-            previousInitialsEl.innerHTML = initialsArray[i];
-            previousScoresEl.innerHTML = scoreArray[i];
+            // previousInitialsEl.innerHTML = initialsArray[i];
+            // previousScoresEl.innerHTML = scoreArray[i];
+
+            //create variable with the entries in the initials array
+            var optionInitial = document.createElement("div");
+            optionInitial.textContent = initialsArray[i];
+
+            //create variable with the entries in the scores array
+            var optionScore = document.createElement("div");
+            optionScore.textContent = scoreArray[i];
+
+            //Create a variable 
+            //Display the variables
+            previousInitialsEl.append(optionInitial);
+            previousInitialsEl.append(optionScore);
         }
     }
     else {
@@ -241,7 +265,15 @@ function renderHighScores() {
 }
 
 
+//Listen for "clear" button click
+clearButton.addEventListener("click", clearArrays);
 
+function clearArrays() {
+    var scoreArray = [300];
+    var initialsArray = ["Perfect Score"];
+    localStorage.setItem("initialsArray", JSON.stringify(initialsArray));
+    localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
+}
 //show scoreboard
 //include option to enter initials and save score
 //save to local browser
