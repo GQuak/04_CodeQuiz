@@ -6,6 +6,7 @@ var restartButton = document.getElementById("restartButton");
 var questionChoices = document.getElementById("question-choices");
 var saveButton = document.getElementById("saveButton");
 var clearButton = document.getElementById("clearButton");
+var scoresButton = document.querySelector(".showScores");
 
 
 //Display Variables
@@ -36,29 +37,29 @@ var initials = "";
 //object to store all the questions, answers, and correct answers
 var quiz = [
     {
-        question: "Question 1? - answer 2",
-        choices: ["option1", "option2", "option3", "option4"],
-        answer: "option2"
+        question: "Which HTML tag do we use for Javascript?",
+        choices: ["<head>", "<script>", "<href>", "<javascript>"],
+        answer: "<script>"
     },
     {
-        question: "Question 2? - answer 4",
-        choices: ["option1", "option2", "option3", "option4"],
-        answer: "option4"
+        question: "How do you write 'Hello World' in an alert box?",
+        choices: ["msg('Hello World')", "alertBox('Hello World')", "msgBox('Hello World')", "alert('Hello World')"],
+        answer: "alert('Hello World')"
     },
     {
-        question: "Question 3? - answer 1",
-        choices: ["option1", "option2", "option3", "option4"],
-        answer: "option1"
+        question: "What variable is visable anywhere in the code?",
+        choices: ["Global Variable", "Local Variable", "Both of the Above", "Neither of the Above"],
+        answer: "Global Variable"
     },
     {
-        question: "Question 4? - answer 3",
-        choices: ["option1", "option2", "option3", "option4"],
-        answer: "option3"
+        question: "What is used to store values?",
+        choices: ["Variables", "Arrays", "Objects", "All of the Above"],
+        answer: "All of the Above"
     },
     {
-        question: "Question 5? - answer 2",
-        choices: ["option1", "option2", "option3", "option4"],
-        answer: "option2"
+        question: "Who created Javascript?",
+        choices: ["Steve Jobs", "Brendan Eich", "Jeff Bezos", "Douglas Crockford"],
+        answer: "Brendan Eich"
     },
 ];
 
@@ -67,6 +68,11 @@ startButton.addEventListener("click", setTime);
 
 //Listen for "restart" button click
 restartButton.addEventListener("click", setTime);
+// restartButton.addEventListener("click", refreshPage());
+
+// function refreshPage() {
+//     window.location.reload();
+// }
 
 //Listen for an answer to be clicked
 questionChoices.addEventListener("click", function (event) {
@@ -104,14 +110,16 @@ questionChoices.addEventListener("click", function (event) {
 function setTime() {
     console.log("Start button click");
     secondsleft = 60;
-    // introductionEl.setAttribute("display", "none");
-    // timerEl.setAttribute("display", "block");
+    currentQuestion = 0;
+    initials = "";
+
     hideIntroduction();
     showQuiz();
     // Sets interval in variable
     var timerInterval = setInterval(function () {
         secondsLeft--;
         timerEl.innerHTML = secondsLeft + " seconds left.";
+        answerResultEl.innerHTML = "";
 
         if (secondsLeft <= 0) {
             // Stops execution of action at set interval
@@ -169,6 +177,7 @@ function hideIntroduction() {
     // var displaySetting = introductionEl.style.display;
     document.querySelector(".introduction").style.display = "none";
     document.querySelector(".highScores").style.display = "none";
+    document.querySelector(".user").style.display = "none";
 }
 
 //Function to show timer & quiz
@@ -188,8 +197,8 @@ function showQuiz() {
 //     return JSON.parse(this.getItem(key))
 // }
 
-var scoreArray = [300];
-var initialsArray = ["Perfect Score"];
+var scoreArray = [];
+var initialsArray = [];
 console.log(scoreArray + " Init. " + initialsArray)
 
 //Event listener to save high score and display last high score
@@ -201,19 +210,17 @@ saveButton.addEventListener("click", function (event) {
     initials = document.getElementById("initials").value;
     console.log(initials + " scored " + score);
 
-    //Call function to display previous high scores
-    renderHighScores();
-
     //Call function to add new high score to the arrays and then save to local storage
     saveHighScore();
 
-
-
+    //Call function to display previous high scores
+    renderHighScores();
 
 
     console.log("scores saved " + score + " " + initials)
     document.querySelector(".highScores").style.display = "block";
-
+    localStorage.setItem("initialsArray", JSON.stringify(initialsArray));
+    localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
 });
 
 
@@ -221,12 +228,6 @@ function saveHighScore() {
     //add new values to the arrays
     scoreArray.push(score);
     initialsArray.push(initials);
-    console.log(scoreArray + " initials: " + initialsArray);
-
-    //
-    localStorage.setItem("initialsArray", JSON.stringify(initialsArray));
-    localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
-
 }
 
 function renderHighScores() {
@@ -234,10 +235,12 @@ function renderHighScores() {
     localScore = JSON.parse(localStorage.getItem("scoreArray"));
     localInitials = JSON.parse(localStorage.getItem("initialsArray"));
     if (localScore !== null && localInitials !== null) {
-        scoreArray = localScore;
-        initialsArray = localInitials;
+        // scoreArray = localScore;
+        // initialsArray = localInitials;
+
+        scoreArray.push(localScore);
+        initialsArray.push(localInitials);
     }
-    console.log(scoreArray + " set to null. " + initialsArray)
 
     if (scoreArray !== null && initialsArray !== null) {
         for (i = 0; i < scoreArray.length; i++) {
@@ -275,6 +278,16 @@ function clearArrays() {
     localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
 }
 //show scoreboard
+// //Listen for "High Scores" button click
+// scoresButton.addEventListener("click", showScores);
+
+// function showScores() {
+//     document.querySelector(".introduction").style.display = "none";
+//     document.querySelector(".highScores").style.display = "block";
+//     document.querySelector(".user").style.display = "none";
+//     document.querySelector(".timer").style.display = "block";
+//     document.querySelector(".quizContainer").style.display = "block";
+// }
 //include option to enter initials and save score
 //save to local browser
 //include option to clear scoreboard
