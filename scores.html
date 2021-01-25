@@ -33,26 +33,21 @@
     </nav>
 
     <!-- This container holds the page content -->
-    <div class="container-fluid">
+    <div class="container-fluid highScores">
         <div class="row">
+
+            <!-- Card containing the High Scoreboard -->
             <div class="col-xs-1 col-md-2 col-lg-3"></div>
-
-            <!-- Card containing the Quiz -->
-            <div class="col-xs-10 col-md-8 col-lg-6">
-                <div class="card">
-                    <div class="card-body introduction">
-                        <h4 class="card-title">Javascript Fundamentals Leaderboard</h4>
-                        <p>*Instructions for how to play the game*</p>
-                        <button type="button" class="startButton">Start</button>
-                    </div>
-
+            <div class="card col-xs-10 col-md-8 col-lg-6">
+                <div class="card-body">
+                    <h4 class="card-title">High Scores</h4>
+                    <div id="scoreboard">SCORES - NAMES - WINNERS</div>
+                    <button type="button" id="restartButton">Replay</button>
+                    <button type="button" id="quitButton">Quit</button>
                 </div>
+
             </div>
-
-            <div class="col-xs-1 col-md-2 col-lg-3"></div>
-
         </div>
-        <p><br><br></p>
     </div>
 
     <!-- Footer with copywrite -->

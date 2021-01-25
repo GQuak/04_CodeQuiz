@@ -2,7 +2,11 @@
 //Button Variables
 // easy reference for ID variables: var timerEl = document.getElementById("timer");
 var startButton = document.querySelector(".startButton");
+var restartButton = document.querySelector(".restartButton");
 var questionChoices = document.getElementById("question-choices");
+var saveButton = document.getElementById("saveButton");
+var quitButton = document.querySelector(".quitButton");
+
 
 //Display Variables
 var timerEl = document.querySelector(".timer");
@@ -12,12 +16,24 @@ var questionTitleEl = document.getElementById("question-title");
 var questionChoicesEl = document.getElementById("question-choices");
 var answerResultEl = document.getElementById("answer-result");
 var scoreEl = document.getElementById("score");
+var userEl = document.querySelector(".user");
+// var scoreboardEl = document.getElementById("scoreboard");
 
+//Display stored variables
+var previousInitialsEl = document.getElementById("previousInitials");
+var previousScoresEl = document.getElementById("previousScores");
 
 //Stored variables
 var secondsLeft = 60;
 var currentQuestion = 0;
 var score = 0;
+var initials = "";
+var scoreArray = [300];
+var initialsArray = ["Perfect Score"];
+
+
+
+
 
 //object to store all the questions, answers, and correct answers
 var quiz = [
@@ -143,7 +159,7 @@ function endQuiz() {
     answerResultEl.innerHTML = "";
     secondsLeft = 0;
     timerEl.textContent = "Game Over!";
-
+    document.querySelector(".user").style.display = "block";
 }
 
 //Function to hide introduction & start button
@@ -154,23 +170,77 @@ function hideIntroduction() {
 
 //Function to show timer & quiz
 function showQuiz() {
-    console.log("Showing quiz")
     document.querySelector(".timer").style.display = "block";
     document.querySelector(".quizContainer").style.display = "block";
 }
 
 
-//if question answered correctly (click correct answer)
-//show "Correct" and then show a new question
-//else (incorrect answer is clicked)
-//show incorrect (or highlight correct answer)
-//take 10 seconds off the timer
-//show a new question
+
+//HIGH SCORE RECORDING & SHOWING
 
 
+//Event listener to save high score and display last high score
+saveButton.addEventListener("click", function (event) {
+    event.preventDefault();
 
-//when all questions are answered or timer runs out - end game
-//show game over and final score
+    //setting input text value to the initials variable
+    initials = document.getElementById("initials").value;
+    console.log(initials + " scored " + score);
+
+
+    //Call function to display previous high scores
+    renderHighScores();
+
+    //Call function to add new high score to the arrays and then save to local storage
+    saveHighScore();
+
+    console.log("scores saved " + score + " " + initials)
+    document.querySelector(".highScores").style.display = "block";
+
+});
+
+
+function saveHighScore() {
+    //add new values to the arrays
+    console.log(x + " lenght of array " + y);
+    console.dir(scoreArray + " initials: " + initialsArray);
+    var x = scoreArray.push(score);
+    var y = initialsArray.push(initials);
+    console.log(x + " lenght of array " + y);
+    console.log(scoreArray + " initials: " + initialsArray)
+
+    //
+    localStorage.setItem("score", JSON.stringify(score));
+    localStorage.setItem("initials", JSON.stringify(initials));
+
+    // Save related form data as an object
+    // var highScores = {
+    //     initials: initials.value.trim(),
+    //     score: score.value
+    // };
+    // // Use .setItem() to store object in storage and JSON.stringify to convert it as a string
+    // localStorage.setItem("highScores", JSON.stringify(highScores));
+    // localStorage.setItem("score", JSON.stringify(score));
+    // localStorage.setItem("initials", JSON.stringify(initials));
+}
+
+function renderHighScores() {
+    scoreArray = JSON.parse(localStorage.getItem("scoreArray"));
+    initialsArray = JSON.parse(localStorage.getItem("initialsArray"));
+    console.log(scoreArray + " " + initialsArray)
+    if (scoreArray !== null && initialsArray !== null) {
+        for (i = 0; i < scoreArray.length; i++) {
+            previousInitialsEl.innerHTML = initialsArray[i];
+            previousScoresEl.innerHTML = scoreArray[i];
+        }
+    }
+    else {
+        previousInitialsEl.innerHTML = "No previous high scores";
+    }
+
+}
+
+
 
 //show scoreboard
 //include option to enter initials and save score

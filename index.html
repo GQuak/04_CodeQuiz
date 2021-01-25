@@ -60,6 +60,11 @@
                     <ol id="question-choices"></ol>
                     <div id="answer-result"></div>
                     <div id="score"></div>
+                    <div class="user">
+                        <label>Enter your Initials: </label>
+                        <input placeholder="Your Initials" name="initials" id="initials" type="text"></input>
+                        <button id="saveButton">Save</button>
+                    </div>
                 </div>
             </div>
 
@@ -70,15 +75,28 @@
                     <p><span id="timer">60 seconds left.</span></p>
                 </div>
 
-                <div class="card-body quizContainer">
-                    <div id="score"></div>
-                </div>
-
             </div>
 
 
 
             <p><br><br></p>
+        </div>
+    </div>
+
+    <div class="container-fluid highScores">
+        <div class="row">
+
+            <!-- Card containing the High Scoreboard -->
+            <div class="col-xs-1 col-md-2 col-lg-3"></div>
+            <div class="card col-xs-10 col-md-8 col-lg-6">
+                <div class="card-body">
+                    <h4 class="card-title">High Scores</h4>
+                    <div id="scoreboard"><span id="previousInitials"></span> <span id="previousScores"></span></div>
+                    <button type="button" id="restartButton">Replay</button>
+                    <button type="button" id="quitButton">Quit</button>
+                </div>
+
+            </div>
         </div>
     </div>
 

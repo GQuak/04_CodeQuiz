@@ -18,12 +18,15 @@
     display: none;
 }
 
+/* .highScores {
+    display: none;
+} */
+
 #timer {
     padding: 20px;
     margin: 50px;
 }
 
-#answer-choices {
-    border: #ffd700;
-    border-width: 5px;
+.user {
+    display: none;
 }
